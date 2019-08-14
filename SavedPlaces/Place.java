@@ -1,28 +1,29 @@
 package com.etoitau.savedplaces;
 
-import android.location.Location;
-
 import com.google.android.gms.maps.model.LatLng;
 
-public class Place {
-    private LatLng latLng;
+import java.io.Serializable;
+
+public class Place implements Serializable {
+    private double lat, lng;
     private String name;
 
     public Place (String name, LatLng latLng) {
         this.name = name;
-        this.latLng = latLng;
+        this.lat = latLng.latitude;
+        this.lng = latLng.longitude;
     }
 
     public LatLng getLatLng() {
-        return latLng;
+        return new LatLng(lat, lng);
     }
 
     public double getLat() {
-        return latLng.latitude;
+        return lat;
     }
 
     public double getLng() {
-        return latLng.longitude;
+        return lng;
     }
 
     public String getName() {

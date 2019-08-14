@@ -95,6 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                     @Override
                     public void onMapLongClick(LatLng latLng) {
+                        Log.i("got long click", latLng.toString());
                         double lat = latLng.latitude;
                         double lng = latLng.longitude;
                         returnIntent.putExtra("lat", lat);

@@ -20,10 +20,12 @@ import java.util.List;
  */
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder> {
     private List<Place> places;
+    MainActivity mainActivity;
 
     // give reference to data being displayed
-    public PlacesAdapter(List<Place> places) {
+    public PlacesAdapter(MainActivity mainActivity, List<Place> places) {
         this.places = places;
+        this.mainActivity = mainActivity;
     }
 
     // Inflating a layout from XML and returning the holder
@@ -43,7 +45,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
 
     // Populating data into the item through holder
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         // Get the data model based on position
         final Place place = places.get(position);
 
@@ -56,8 +58,13 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.ViewHolder
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                places.remove(position);
-                notifyItemRemoved(position);
+                // make sure it still exists
+                if (holder.getAdapterPosition() != RecyclerView.NO_POSITION && places.contains(place)) {
+                    int pos = places.indexOf(place);
+                    places.remove(pos);
+                    notifyItemRemoved(pos);
+                    mainActivity.savePlaces();
+                }
             }
         });
 

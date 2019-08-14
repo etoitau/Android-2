@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Place> places = new ArrayList<>();
     private final int MAPS_REQUEST_CODE = 0;
     private PlacesAdapter adapter;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +39,20 @@ public class MainActivity extends AppCompatActivity {
         rvPlaces.addItemDecoration(itemDecoration);
 
         // set up recycler view
-        adapter = new PlacesAdapter(places);
+        adapter = new PlacesAdapter(this, places);
         rvPlaces.setAdapter(adapter);
         rvPlaces.setLayoutManager(new LinearLayoutManager(this));
 
-        // keep to bottom of list if layout changes to accomodate keyboard
+        // keep to bottom of list if layout changes to accommodate keyboard
         rvPlaces.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
                 rvPlaces.scrollToPosition(adapter.getItemCount() - 1);
             }
         });
+
+        sharedPreferences = this.getSharedPreferences("com.etoitau.savedplaces", Context.MODE_PRIVATE);
+        loadPlaces();
     }
 
     // user clicks to add new view
@@ -83,7 +90,37 @@ public class MainActivity extends AppCompatActivity {
                 // clear new place text field for next
                 EditText nameEditText = findViewById(R.id.enterName);
                 nameEditText.setText("");
+                // save updated list to memory
+                savePlaces();
             }
+        }
+    }
+
+    /**
+     * retrieve any saved places from preferences memory
+     */
+    public void loadPlaces() {
+        String raw = sharedPreferences.getString("places", null);
+
+        if (raw != null) {
+            try {
+                places.addAll((ArrayList<Place>) ObjectSerializer.deserialize(raw));
+                adapter.notifyDataSetChanged();
+            } catch (IOException|ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * save current saved places to preferences memory
+     */
+    public void savePlaces() {
+        try {
+            String placesString = ObjectSerializer.serialize(places);
+            sharedPreferences.edit().putString("places", placesString).apply();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
