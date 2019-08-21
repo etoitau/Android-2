@@ -7,5 +7,6 @@ I've only included the files showing logic, layout, and design.
 - Saved Places - practice with RecyclerView, passing between multiple activities, and saving to
  shared preferences - keeps a list of places the user has saved. uses a map view to revisit or add new places. 
 - Save Note - Practice with alerts and menus - simple text edit with some save/delete functionality
+- Photo Catch - Learning Parse platform, Amazon Web Services (AWS), accessing device photos - Users can create accounts, discover and curate lists of other users, and share photos
 
 ## Youtube demo
