@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/galleryTitle" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/photoScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -61,7 +61,7 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/backText"

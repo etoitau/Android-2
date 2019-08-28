@@ -59,7 +59,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         // Get the data model based on position
-        final Photo pic = pics.get(position);
+        final Photo pic = pics.get(holder.getAdapterPosition()); // changed from just position
 
         // add pic
         final ImageView imageView = holder.imageView;
