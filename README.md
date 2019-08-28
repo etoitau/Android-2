@@ -11,4 +11,4 @@ I've only included the files showing logic, layout, and design.
 - Coin Run - Learning libGDX - A side-scrolling game where you jump to collect coins and avoid bombs
 
 ## Youtube demo  
-https://youtu.be/P1TFmFseWMg
+https://youtu.be/-n5hKCi2sGQ
